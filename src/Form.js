@@ -7,38 +7,25 @@ class Form extends Component {
     super();
 
     this.validator = new FormValidator([
-      { field: 'duration', method: 'isNumeric', validWhen: true, message: 'Duration must be a number.'},
-      { field: 'duration', method: 'isInt', args: [{min: 1, max: 100}], 
-                          validWhen: true, message: 'Duration must be between 1 and 100 minutes.'},
-
-      { field: 'ballast', method: 'isNumeric', validWhen: true, message: 'Ballast must be a number.'},
-      { field: 'ballast', method: 'isInt', args: [{min: 0, max: 20}], 
-                          validWhen: true, message: 'Ballast must between 0 and 20 pounds.'},
-
-      { field: 'max_depth', method: 'isNumeric', validWhen: true, message: 'Maximum depth must be a number.'},
-      { field: 'max_depth', method: 'isInt', args: [{min: 1, max: 150}], 
-                          validWhen: true, message: 'Maximum depth must be between 1 and 150 feet.'},
-
-      { field: 'starting_pressure', method: 'isNumeric', validWhen: true, message: 'Starting pressure must be a number, in psi.'},
-      { field: 'starting_pressure', method: 'isInt', args: [{min: 1, max: 4000}], 
-                          validWhen: true, message: 'Starting pressure must be between 1 and 4000 psi.'},
-
-      { field: 'final_pressure', method: 'isNumeric', validWhen: true, message: 'Final pressure must be a number, in psi.'},
-      { field: 'final_pressure', method: 'isInt', args: [{min: 1, max: 4000}], 
-                          validWhen: true, message: 'Final pressure must be between 1 and 4000 psi.'},
-
-      { field: 'time', method: 'matches', args: [/^\d?\d:\d\d$/],
-                      validWhen: true, message: 'Time must be in the format hh:mm.'},
+      { field: 'email', method: 'isEmpty', validWhen: false, message: 'Email is required.'},
+      { field: 'email', method: 'isEmail', validWhen: true,  message: 'That is not a valid email.' },
+      { field: 'phone', method: 'isEmpty', validWhen: false, message: 'Phone is required.' },
+      { field: 'password', method: 'isEmpty', validWhen: false, message: 'Password is required.' },
+      { field: 'password_confirmation', method: 'isEmpty', validWhen: false, message: 'Password Confirmation is required.' },
     ]);
-  }
-  componentWillMount() {
+
     this.state = {
-      validation: this.validator.reset()
-    };
+      email: '',
+      phone: '',
+      password: '',
+      password_confirmation: '',
+      validation: this.validator.reset(),
+    }
   }
 
   handleInputChange = event => {
     event.preventDefault();
+
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -46,43 +33,54 @@ class Form extends Component {
     
   handleFormSubmit = event => {
     event.preventDefault();
+    console.log('state: ', this.state)
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
 
     if (validation.isValid) {
-      this.setState({ submitted: true });
-
-      this.props.onSubmit({
-        ...this.state
-      });
+      // handle actual form submission here
     }
   }
 
   render() {
+    let validation = this.state.validation;
+    console.log(validation)
     return (
       <form className="demoForm">
         <h2>Sign up</h2>
-        <div className="form-group">
+        <div className={validation.email.isInvalid && 'has-error'}>
           <label htmlFor="email">Email address</label>
           <input type="email" className="form-control"
-            name="email" />
+            name="email"
+            onChange={this.handleInputChange}
+          />
+          <span className="help-block">{validation.email.message}</span>
         </div>
-        <div className="form-group">
+        <div className={validation.phone.isInvalid && 'has-error'}>
           <label htmlFor="phone">Phone</label>
           <input type="phone" className="form-control"
-            name="phone" />
+            name="phone"
+            onChange={this.handleInputChange}
+          />
+          <span className="help-block">{validation.phone.message}</span>
         </div>
-        <div className="form-group">
+        <div className={validation.password.isInvalid && 'has-error'}>
           <label htmlFor="password">Password</label>
           <input type="password" className="form-control"
-            name="password" />
+            name="password"
+            onChange={this.handleInputChange}
+          />
+          <span className="help-block">{validation.password.message}</span>
         </div>
-        <div className="form-group">
+        <div className={validation.password_confirmation.isInvalid && 'has-error'}>
           <label htmlFor="password_confirmation">Password Again</label>
           <input type="password" className="form-control"
-            name="password_confirmation" />
+            name="password_confirmation"
+            onChange={this.handleInputChange}
+          />
+        <span className="help-block">{validation.password_confirmation.message}</span>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button onClick={this.handleFormSubmit} className="btn btn-primary">
           Sign up
        </button>
       </form>
