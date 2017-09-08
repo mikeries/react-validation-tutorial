@@ -24,6 +24,8 @@ class Form extends Component {
       password_confirmation: '',
       validation: this.validator.reset(),
     }
+
+    this.submitted = false;
   }
 
   passwordMatch = (confirmation, state) => (state.password === confirmation)
@@ -40,6 +42,7 @@ class Form extends Component {
     event.preventDefault();
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
+    this.submitted = true;
 
     if (validation.isValid) {
       // handle actual form submission here
@@ -47,7 +50,9 @@ class Form extends Component {
   }
 
   render() {
-    let validation = this.validator.validate(this.state);
+    let validation = this.submitted ? 
+                      this.validator.validate(this.state) :
+                      this.state.validation
 
     return (
       <form className="demoForm">
