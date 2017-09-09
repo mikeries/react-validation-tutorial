@@ -7,14 +7,49 @@ class Form extends Component {
     super();
 
     this.validator = new FormValidator([
-      { field: 'email', method: 'isEmpty', validWhen: false, message: 'Email is required.'},
-      { field: 'email', method: 'isEmail', validWhen: true,  message: 'That is not a valid email.' },
-      { field: 'phone', method: 'isEmpty', validWhen: false, message: 'Phone is required.' },
-      { field: 'phone', method: 'matches', args: [/^\(?\d\d\d\)? ?\d\d\d-?\d\d\d\d$/],
-                        validWhen: true, message: 'That is not a valid phone number.'},
-      { field: 'password', method: 'isEmpty', validWhen: false, message: 'Password is required.' },
-      { field: 'password_confirmation', method: 'isEmpty', validWhen: false, message: 'Password confirmation is required.' },
-      { field: 'password_confirmation', method: this.passwordMatch, validWhen: true, message: 'Password and password confirmation do not match.'}
+      { 
+        field: 'email', 
+        method: 'isEmpty', 
+        validWhen: false, 
+        message: 'Email is required.' 
+      },
+      { 
+        field: 'email',
+        method: 'isEmail', 
+        validWhen: true, 
+        message: 'That is not a valid email.'
+      },
+      { 
+        field: 'phone', 
+        method: 'isEmpty', 
+        validWhen: false, 
+        message: 'Phone is required.'
+      },
+      {
+        field: 'phone', 
+        method: 'matches',
+        args: [/^\(?\d\d\d\)? ?\d\d\d-?\d\d\d\d$/], // args is an optional array of arguements that will be passed to the validation method
+        validWhen: true, 
+        message: 'That is not a valid phone number.'
+      },
+      { 
+        field: 'password', 
+        method: 'isEmpty', 
+        validWhen: false, 
+        message: 'Password is required.'
+      },
+      { 
+        field: 'password_confirmation', 
+        method: 'isEmpty', 
+        validWhen: false, 
+        message: 'Password confirmation is required.'
+      },
+      { 
+        field: 'password_confirmation', 
+        method: this.passwordMatch,   // notice that we are passing a custom function here
+        validWhen: true, 
+        message: 'Password and password confirmation do not match.'
+      }
     ]);
 
     this.state = {
