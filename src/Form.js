@@ -123,7 +123,7 @@ class Form extends Component {
             name="password_confirmation"
             onChange={this.handleInputChange}
           />
-        <span className="help-block">{validation.password_confirmation.message}</span>
+          <span className="help-block">{validation.password_confirmation.message}</span>
         </div>
         <button onClick={this.handleFormSubmit} className="btn btn-primary">
           Sign up
