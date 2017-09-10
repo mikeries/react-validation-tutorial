@@ -57,7 +57,7 @@ class Form extends Component {
       phone: '',
       password: '',
       password_confirmation: '',
-      validation: this.validator.reset(),
+      validation: this.validator.valid(),
     }
 
     this.submitted = false;
@@ -75,6 +75,7 @@ class Form extends Component {
     
   handleFormSubmit = event => {
     event.preventDefault();
+
     const validation = this.validator.validate(this.state);
     this.setState({ validation });
     this.submitted = true;
@@ -85,13 +86,14 @@ class Form extends Component {
   }
 
   render() {
-    let validation = this.submitted ? 
-                      this.validator.validate(this.state) :
-                      this.state.validation
+    let validation = this.submitted ?                         // if the form has been submitted at least once
+                      this.validator.validate(this.state) :   // then check validity every time we render
+                      this.state.validation                   // otherwise just use what's in state
 
     return (
       <form className="demoForm">
         <h2>Sign up</h2>
+
         <div className={validation.email.isInvalid && 'has-error'}>
           <label htmlFor="email">Email address</label>
           <input type="email" className="form-control"
@@ -100,6 +102,7 @@ class Form extends Component {
           />
           <span className="help-block">{validation.email.message}</span>
         </div>
+
         <div className={validation.phone.isInvalid && 'has-error'}>
           <label htmlFor="phone">Phone</label>
           <input type="phone" className="form-control"
@@ -109,6 +112,7 @@ class Form extends Component {
           />
           <span className="help-block">{validation.phone.message}</span>
         </div>
+
         <div className={validation.password.isInvalid && 'has-error'}>
           <label htmlFor="password">Password</label>
           <input type="password" className="form-control"
@@ -117,6 +121,7 @@ class Form extends Component {
           />
           <span className="help-block">{validation.password.message}</span>
         </div>
+
         <div className={validation.password_confirmation.isInvalid && 'has-error'}>
           <label htmlFor="password_confirmation">Password Again</label>
           <input type="password" className="form-control"
@@ -125,9 +130,10 @@ class Form extends Component {
           />
           <span className="help-block">{validation.password_confirmation.message}</span>
         </div>
+
         <button onClick={this.handleFormSubmit} className="btn btn-primary">
           Sign up
-       </button>
+        </button>
       </form>
     )
   }

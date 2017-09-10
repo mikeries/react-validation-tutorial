@@ -2,11 +2,13 @@ import validator from 'validator';
 
 class FormValidator {
   constructor(validations) {
+
+    // validations is an array of validation rules specific to a form
     this.validations = validations;
   }
 
-  validate = state => {
-    let validation = this.reset();
+  validate(state) {
+    let validation = this.valid();
     this.validations.forEach(v => {
       if (!validation[v.field].isInvalid) {
         const args = v.args || [];
@@ -25,7 +27,7 @@ class FormValidator {
     return validation;
   }
 
-  reset = () => {
+  valid() {
     const validation = {}
 
     this.validations.map(v => (
