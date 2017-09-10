@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-This is companion code to go along with my blog post.
+This is companion code to go along with my [blog post](https://medium.com/code-monkey/client-side-form-validation-in-react-40e367de47ba)
 
 ## Installation
 
