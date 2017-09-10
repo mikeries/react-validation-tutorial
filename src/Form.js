@@ -23,7 +23,7 @@ class Form extends Component {
         field: 'phone', 
         method: 'isEmpty', 
         validWhen: false, 
-        message: 'Phone is required.'
+        message: 'Pleave provide a phone number.'
       },
       {
         field: 'phone', 
@@ -98,6 +98,7 @@ class Form extends Component {
           <label htmlFor="email">Email address</label>
           <input type="email" className="form-control"
             name="email"
+            placeholder="john@doe.com"
             onChange={this.handleInputChange}
           />
           <span className="help-block">{validation.email.message}</span>
