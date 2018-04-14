@@ -1,5 +1,3 @@
-import validator from 'validator';
-
 class FormValidator {
   constructor(validations) {
     // validations is an array of validation rules specific to a form
@@ -19,10 +17,7 @@ class FormValidator {
         // the rule definition
         const field_value = state[rule.field].toString();
         const args = rule.args || [];
-        const validation_method = 
-              typeof rule.method === 'string' ?
-              validator[rule.method] : 
-              rule.method
+        const validation_method = rule.method
               
         // call the validation_method with the current field value as the first
         // argument, any additional arguments, and the whole state as a final
